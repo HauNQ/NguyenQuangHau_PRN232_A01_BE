@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\FUNewsManagementSystem.Application\FUNewsManagementSystem.Application.csproj" />
     <ProjectReference Include="..\FUNewsManagementSystem.Core\FUNewsManagementSystem.Core.csproj" />
     <ProjectReference Include="..\FUNewsManagementSystem.Infrastructure\FUNewsManagementSystem.Infrastructure.csproj" />
   </ItemGroup>
