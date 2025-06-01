@@ -22,7 +22,7 @@ builder.Services.AddScoped<ITagRepository, TagRepository>();
 builder.Services.AddScoped<ITagService, TagService>();
 
 builder.Services.AddScoped<ISystemAccountRepository, SystemAccountRepository>();
-
+builder.Services.AddScoped<ISystemAccountService, SystemAccountService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
