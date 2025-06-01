@@ -1,4 +1,5 @@
-﻿using FUNewsManagementSystem.Core.DTOs;
+﻿using FUNewsManagementSystem.Application.Services;
+using FUNewsManagementSystem.Core.DTOs;
 using FUNewsManagementSystem.Core.Entities;
 using FUNewsManagementSystem.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Http;
@@ -10,48 +11,47 @@ namespace FUNewsManagementSystem.API.Controllers
     [ApiController]
     public class SystemAccountsController : ControllerBase
     {
-        private readonly ISystemAccountRepository _repo;
+        private readonly ISystemAccountService _service;
 
-        public SystemAccountsController(ISystemAccountRepository repo)
+        public SystemAccountsController(ISystemAccountService service)
         {
-            _repo = repo;
+            _service = service;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll() => Ok(await _repo.GetAllAsync());
+        public IActionResult GetAll()
+        {
+            var accounts = _service.GetAll();
+            return Ok(accounts);
+        }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
+        public IActionResult GetById(int id)
         {
-            var acc = await _repo.GetByIdAsync(id);
-            return acc == null ? NotFound() : Ok(acc);
+            var account = _service.GetById(id);
+            return account == null ? NotFound() : Ok(account);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(SystemAccount acc)
+        public IActionResult Create([FromBody] SystemAccount account)
         {
-            await _repo.AddAsync(acc);
-            return CreatedAtAction(nameof(GetById), new { id = acc.Id }, acc);
+            _service.Add(account);
+            return Ok();
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, SystemAccount acc)
+        public IActionResult Update(int id, [FromBody] SystemAccount account)
         {
-            if (id != acc.Id) return BadRequest();
-            return await _repo.UpdateAsync(acc) ? Ok() : NotFound();
+            if (id != account.Id) return BadRequest();
+            _service.Update(account);
+            return Ok();
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public IActionResult Delete(int id)
         {
-            return await _repo.DeleteAsync(id) ? Ok() : Conflict("Cannot delete an account that has created news.");
-        }
-
-        [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginDto dto)
-        {
-            var user = await _repo.LoginAsync(dto.Email, dto.Password);
-            return user == null ? Unauthorized() : Ok(user);
+            _service.Delete(id);
+            return Ok();
         }
     }
 

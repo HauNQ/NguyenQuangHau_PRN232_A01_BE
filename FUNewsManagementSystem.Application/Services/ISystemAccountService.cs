@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FUNewsManagementSystem.Infrastructure.Repositories
+namespace FUNewsManagementSystem.Application.Services
 {
-    public interface ISystemAccountRepository
+    public interface ISystemAccountService
     {
         IEnumerable<SystemAccount> GetAll();
         SystemAccount? GetById(int id);
