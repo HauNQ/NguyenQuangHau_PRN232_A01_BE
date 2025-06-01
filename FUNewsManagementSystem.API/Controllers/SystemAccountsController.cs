@@ -53,6 +53,13 @@ namespace FUNewsManagementSystem.API.Controllers
             _service.Delete(id);
             return Ok();
         }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] LoginDto dto)
+        {
+            var user = await _service.LoginAsync(dto.Email, dto.Password);
+            return user == null ? Unauthorized() : Ok(user);
+        }
     }
 
 }

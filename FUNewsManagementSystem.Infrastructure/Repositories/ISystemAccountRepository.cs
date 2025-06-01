@@ -14,5 +14,6 @@ namespace FUNewsManagementSystem.Infrastructure.Repositories
         void Add(SystemAccount account);
         void Update(SystemAccount account);
         void Delete(int id);
+        Task<SystemAccount?> LoginAsync(string email, string password);
     }
 }

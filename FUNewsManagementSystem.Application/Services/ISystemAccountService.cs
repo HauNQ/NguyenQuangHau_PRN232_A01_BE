@@ -1,4 +1,5 @@
-﻿using FUNewsManagementSystem.Core.Entities;
+﻿using FUNewsManagementSystem.Core.DTOs;
+using FUNewsManagementSystem.Core.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,5 +15,7 @@ namespace FUNewsManagementSystem.Application.Services
         void Add(SystemAccount account);
         void Update(SystemAccount account);
         void Delete(int id);
+
+        Task<SystemAccount?> LoginAsync(string email, string password);
     }
 }

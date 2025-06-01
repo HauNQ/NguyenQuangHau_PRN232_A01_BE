@@ -49,6 +49,10 @@ namespace FUNewsManagementSystem.Infrastructure.Repositories
                 _context.SaveChanges();
             }
         }
+
+        public async Task<SystemAccount?> LoginAsync(string email, string password) =>
+           await _context.SystemAccounts
+               .FirstOrDefaultAsync(a => a.Email == email && a.Password == password);
     }
 
 }
