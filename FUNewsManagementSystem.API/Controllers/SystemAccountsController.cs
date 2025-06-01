@@ -57,7 +57,7 @@ namespace FUNewsManagementSystem.API.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginDto dto)
         {
-            var user = await _repo.LoginAsync(dto.Email, dto.Password);
+            var user = await _service.LoginAsync(dto.Email, dto.Password);
             return user == null ? Unauthorized() : Ok(user);
         }
     }

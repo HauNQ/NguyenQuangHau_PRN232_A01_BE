@@ -26,5 +26,10 @@ namespace FUNewsManagementSystem.Application.Services
         public void Update(SystemAccount account) => _repository.Update(account);
 
         public void Delete(int id) => _repository.Delete(id);
+
+        public Task<SystemAccount?> LoginAsync(string email, string password)
+        {
+           return _repository.LoginAsync(email, password);
+        }
     }
 }
