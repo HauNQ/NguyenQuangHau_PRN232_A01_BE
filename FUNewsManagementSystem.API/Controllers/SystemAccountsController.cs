@@ -1,9 +1,8 @@
 ﻿using FUNewsManagementSystem.Application.Services;
 using FUNewsManagementSystem.Core.DTOs;
-using FUNewsManagementSystem.Core.Entities;
-using FUNewsManagementSystem.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace FUNewsManagementSystem.API.Controllers
 {
@@ -33,25 +32,25 @@ namespace FUNewsManagementSystem.API.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] SystemAccount account)
+        public IActionResult Create([FromBody] SystemAccountDTO accountDto)
         {
-            _service.Add(account);
-            return Ok();
+            var id = _service.Add(accountDto);
+            return Ok(new { Id = id });
         }
 
         [HttpPut("{id}")]
-        public IActionResult Update(int id, [FromBody] SystemAccount account)
+        public IActionResult Update(int id, [FromBody] SystemAccountDTO accountDto)
         {
-            if (id != account.Id) return BadRequest();
-            _service.Update(account);
-            return Ok();
+            if (id != accountDto.Id) return BadRequest();
+            var success = _service.Update(accountDto);
+            return success ? Ok() : NotFound();
         }
 
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            _service.Delete(id);
-            return Ok();
+            var success = _service.Delete(id);
+            return success ? Ok() : NotFound();
         }
 
         [HttpPost("login")]
@@ -61,5 +60,4 @@ namespace FUNewsManagementSystem.API.Controllers
             return user == null ? Unauthorized() : Ok(user);
         }
     }
-
 }

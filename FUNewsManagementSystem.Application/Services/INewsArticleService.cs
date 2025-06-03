@@ -1,4 +1,5 @@
-﻿using FUNewsManagementSystem.Core.Entities;
+﻿using FUNewsManagementSystem.Core.DTOs;
+using FUNewsManagementSystem.Core.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,12 +10,12 @@ namespace FUNewsManagementSystem.Application.Services
 {
     public interface INewsArticleService
     {
-        IEnumerable<NewsArticle> GetAll();
-        NewsArticle GetById(int id);
-        void Add(NewsArticle news);
-        void Update(NewsArticle news);
-        void Delete(int id);
-        IEnumerable<NewsArticle> Search(string keyword);
+        IEnumerable<NewsArticleDTO> GetAll();
+        NewsArticleDTO GetById(int id);
+        int Add(NewsArticleDTO newsDTO);
+        bool Update(NewsArticleDTO newsDTO);
+        bool Delete(int id);
+        IEnumerable<NewsArticleDTO> Search(string keyword);
     }
 
 }

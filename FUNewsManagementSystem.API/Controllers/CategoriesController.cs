@@ -1,7 +1,9 @@
 ﻿using FUNewsManagementSystem.Application.Services;
+using FUNewsManagementSystem.Core.DTOs;
 using FUNewsManagementSystem.Core.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel;
 
 namespace FUNewsManagementSystem.API.Controllers
 {
@@ -25,19 +27,26 @@ namespace FUNewsManagementSystem.API.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(Category category)
+        public IActionResult Create(CategoryDTO category)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
-            _service.Add(category);
+
+            category = _service.GetById(_service.Add(category));
+
             return CreatedAtAction(nameof(GetById), new { id = category.Id }, category);
         }
 
         [HttpPut("{id}")]
-        public IActionResult Update(int id, Category category)
+        public IActionResult Update(int id, CategoryDTO category)
         {
-            if (id != category.Id) return BadRequest();
             if (!ModelState.IsValid) return BadRequest(ModelState);
-            _service.Update(category);
+
+            if (category.Id != id) return BadRequest("ID mismatch");
+
+            bool success = _service.Update(category);
+
+            if (!success) return NotFound();
+
             return NoContent();
         }
 

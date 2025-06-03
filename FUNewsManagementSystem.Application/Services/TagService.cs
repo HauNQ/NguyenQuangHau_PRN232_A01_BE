@@ -1,30 +1,61 @@
-﻿using FUNewsManagementSystem.Core.Entities;
+﻿using AutoMapper;
+using FUNewsManagementSystem.Core.DTOs;
+using FUNewsManagementSystem.Core.Entities;
 using FUNewsManagementSystem.Infrastructure.Repositories;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FUNewsManagementSystem.Application.Services
 {
     public class TagService : ITagService
     {
         private readonly ITagRepository _repository;
+        private readonly IMapper _mapper;
 
-        public TagService(ITagRepository repository)
+        public TagService(ITagRepository repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
 
-        public IEnumerable<Tag> GetAll() => _repository.GetAll();
+        public IEnumerable<TagDTO> GetAll()
+        {
+            var tags = _repository.GetAll();
+            return _mapper.Map<IEnumerable<TagDTO>>(tags);
+        }
 
-        public Tag? GetById(int id) => _repository.GetById(id);
+        public TagDTO? GetById(int id)
+        {
+            var tag = _repository.GetById(id);
+            return tag == null ? null : _mapper.Map<TagDTO>(tag);
+        }
 
-        public void Add(Tag tag) => _repository.Add(tag);
+        public int Add(TagDTO tagDto)
+        {
+            var tag = _mapper.Map<Tag>(tagDto);
+            _repository.Add(tag);
+            _repository.Save();
+            return tag.Id;
+        }
 
-        public void Update(Tag tag) => _repository.Update(tag);
+        public bool Update(TagDTO tagDto)
+        {
+            var existingTag = _repository.GetById(tagDto.Id);
+            if (existingTag == null) return false;
 
-        public void Delete(int id) => _repository.Delete(id);
+            _mapper.Map(tagDto, existingTag);
+            _repository.Update(existingTag);
+            _repository.Save();
+            return true;
+        }
+
+        public bool Delete(int id)
+        {
+            var existingTag = _repository.GetById(id);
+            if (existingTag == null) return false;
+
+            _repository.Delete(id);
+            _repository.Save();
+            return true;
+        }
     }
 }

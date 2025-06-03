@@ -1,6 +1,5 @@
 ﻿using FUNewsManagementSystem.Application.Services;
-using FUNewsManagementSystem.Core.Entities;
-using Microsoft.AspNetCore.Http;
+using FUNewsManagementSystem.Core.DTOs;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FUNewsManagementSystem.API.Controllers
@@ -31,25 +30,26 @@ namespace FUNewsManagementSystem.API.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] Tag tag)
+        public IActionResult Create([FromBody] TagDTO tagDto)
         {
-            _tagService.Add(tag);
-            return Ok();
+            var newTagId = _tagService.Add(tagDto);
+            return CreatedAtAction(nameof(Get), new { id = newTagId }, tagDto);
         }
 
         [HttpPut("{id}")]
-        public IActionResult Update(int id, [FromBody] Tag tag)
+        public IActionResult Update(int id, [FromBody] TagDTO tagDto)
         {
-            if (id != tag.Id) return BadRequest();
-            _tagService.Update(tag);
-            return Ok();
+            if (id != tagDto.Id) return BadRequest("ID mismatch.");
+
+            var updated = _tagService.Update(tagDto);
+            return updated ? Ok() : NotFound();
         }
 
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            _tagService.Delete(id);
-            return Ok();
+            var deleted = _tagService.Delete(id);
+            return deleted ? Ok() : NotFound();
         }
     }
 }

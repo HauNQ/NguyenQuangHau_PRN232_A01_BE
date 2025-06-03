@@ -1,4 +1,5 @@
-﻿using FUNewsManagementSystem.Core.Entities;
+﻿using FUNewsManagementSystem.Core.DTOs;
+using FUNewsManagementSystem.Core.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +10,10 @@ namespace FUNewsManagementSystem.Application.Services
 {
     public interface ICategoryService
     {
-        IEnumerable<Category> GetAll();
-        Category GetById(int id);
-        bool Add(Category category);
-        bool Update(Category category);
+        IEnumerable<CategoryDTO> GetAll();
+        CategoryDTO GetById(int id);
+        int Add(CategoryDTO catDTO);
+        bool Update(CategoryDTO catDTO);
         bool Delete(int id);
     }
 

@@ -1,4 +1,6 @@
+using AutoMapper;
 using FUNewsManagementSystem.Application.Services;
+using FUNewsManagementSystem.Core.Mapper;
 using FUNewsManagementSystem.Infrastructure.Data;
 using FUNewsManagementSystem.Infrastructure.Repositories;
 using Microsoft.AspNetCore.OData;
@@ -9,7 +11,12 @@ var builder = WebApplication.CreateBuilder(args);
 var sqlServerAuthConnection = builder.Configuration.GetConnectionString("DefaultConnection")
     .Replace("${MY_SQL_USR}", Environment.GetEnvironmentVariable("MY_SQL_USR") ?? "")
     .Replace("${MY_SQL_PWD}", Environment.GetEnvironmentVariable("MY_SQL_PWD") ?? "");
+
 // Add services to the container.
+
+/*builder.Services.AddAutoMapper(typeof(MappingProfile));*/
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
 
 
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();

@@ -15,6 +15,8 @@ namespace FUNewsManagementSystem.Infrastructure.Repositories
         void Update(NewsArticle news);
         void Delete(int id);
         IEnumerable<NewsArticle> Search(string keyword);
+
+        void Save();
     }
 
 }

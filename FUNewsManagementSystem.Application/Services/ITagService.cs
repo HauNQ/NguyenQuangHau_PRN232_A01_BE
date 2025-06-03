@@ -1,18 +1,14 @@
-﻿using FUNewsManagementSystem.Core.Entities;
-using System;
+﻿using FUNewsManagementSystem.Core.DTOs;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FUNewsManagementSystem.Application.Services
 {
     public interface ITagService
     {
-        IEnumerable<Tag> GetAll();
-        Tag? GetById(int id);
-        void Add(Tag tag);
-        void Update(Tag tag);
-        void Delete(int id);
+        IEnumerable<TagDTO> GetAll();
+        TagDTO? GetById(int id);
+        int Add(TagDTO tagDto);
+        bool Update(TagDTO tagDto);
+        bool Delete(int id);
     }
 }

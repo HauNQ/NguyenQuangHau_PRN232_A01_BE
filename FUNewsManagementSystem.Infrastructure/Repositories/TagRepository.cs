@@ -49,5 +49,7 @@ namespace FUNewsManagementSystem.Infrastructure.Repositories
                 _context.SaveChanges();
             }
         }
+
+        public void Save() => _context.SaveChanges();
     }
 }

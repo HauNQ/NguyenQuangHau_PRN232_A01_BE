@@ -56,6 +56,8 @@ namespace FUNewsManagementSystem.Infrastructure.Repositories
                 .Where(n => n.Title.Contains(keyword) || n.Content.Contains(keyword))
                 .ToList();
         }
+
+        public void Save() => _context.SaveChanges();
     }
 
 }

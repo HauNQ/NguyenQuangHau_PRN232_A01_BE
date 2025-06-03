@@ -1,6 +1,5 @@
 ﻿using FUNewsManagementSystem.Application.Services;
-using FUNewsManagementSystem.Core.Entities;
-using Microsoft.AspNetCore.Http;
+using FUNewsManagementSystem.Core.DTOs;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FUNewsManagementSystem.API.Controllers
@@ -17,7 +16,11 @@ namespace FUNewsManagementSystem.API.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAll() => Ok(_service.GetAll());
+        public IActionResult GetAll()
+        {
+            var result = _service.GetAll();
+            return Ok(result);
+        }
 
         [HttpGet("{id}")]
         public IActionResult Get(int id)
@@ -27,32 +30,33 @@ namespace FUNewsManagementSystem.API.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] NewsArticle news)
+        public IActionResult Create([FromBody] NewsArticleDTO newsDto)
         {
-            _service.Add(news);
-            return Ok();
+            if (newsDto == null) return BadRequest();
+            var id = _service.Add(newsDto);
+            return Ok(new { id });
         }
 
         [HttpPut("{id}")]
-        public IActionResult Update(int id, [FromBody] NewsArticle news)
+        public IActionResult Update(int id, [FromBody] NewsArticleDTO newsDto)
         {
-            if (id != news.Id) return BadRequest();
-            _service.Update(news);
-            return Ok();
+            if (newsDto == null || id != newsDto.Id) return BadRequest();
+            var success = _service.Update(newsDto);
+            return success ? Ok() : NotFound();
         }
 
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            _service.Delete(id);
-            return Ok();
+            var success = _service.Delete(id);
+            return success ? Ok() : NotFound();
         }
 
         [HttpGet("search")]
         public IActionResult Search([FromQuery] string keyword)
         {
-            return Ok(_service.Search(keyword));
+            var result = _service.Search(keyword);
+            return Ok(result);
         }
     }
-
 }
