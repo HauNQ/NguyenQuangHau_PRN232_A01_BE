@@ -1,0 +1,20 @@
+﻿@* Views/SystemAccount/Details.cshtml *@
+@model SystemAccountDTO
+
+@{
+    ViewBag.Title = "Account Details";
+}
+
+<h2 class="my-4">Account Details</h2>
+
+<div class="card p-4 shadow-sm">
+    <dl class="row">
+        <dt class="col-sm-3">Email</dt>
+        <dd class="col-sm-9">@Model.Email</dd>
+
+        <dt class="col-sm-3">Role</dt>
+        <dd class="col-sm-9">@(Model.Role == 1 ? "Admin" : "User")</dd>
+    </dl>
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+</div>

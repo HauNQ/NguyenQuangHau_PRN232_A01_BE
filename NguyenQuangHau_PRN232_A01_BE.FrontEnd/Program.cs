@@ -1,3 +1,5 @@
+using NguyenQuangHau_PRN232_A01_BE.FrontEnd.Service;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -5,7 +7,12 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddHttpClient<CategoryService>(client =>
 {
-    client.BaseAddress = new Uri("https://localhost:7252/"); // Change to your API base URL
+    client.BaseAddress = new Uri("https://localhost:7252/api/"); // Change to your API base URL
+});
+
+builder.Services.AddHttpClient<SystemAccountService>(client =>
+{
+    client.BaseAddress = new Uri("https://localhost:7252/api/");
 });
 
 

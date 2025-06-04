@@ -15,29 +15,29 @@ public class CategoryService
 
     public async Task<IEnumerable<CategoryDTO>> GetCategoriesAsync()
     {
-        return await _httpClient.GetFromJsonAsync<IEnumerable<CategoryDTO>>("api/categories");
+        return await _httpClient.GetFromJsonAsync<IEnumerable<CategoryDTO>>("categories");
     }
 
     public async Task<CategoryDTO?> GetCategoryByIdAsync(int id)
     {
-        return await _httpClient.GetFromJsonAsync<CategoryDTO>($"api/categories/{id}");
+        return await _httpClient.GetFromJsonAsync<CategoryDTO>($"categories/{id}");
     }
 
     public async Task<bool> CreateCategoryAsync(CategoryDTO category)
     {
-        var response = await _httpClient.PostAsJsonAsync("api/categories", category);
+        var response = await _httpClient.PostAsJsonAsync("categories", category);
         return response.IsSuccessStatusCode;
     }
 
     public async Task<bool> UpdateCategoryAsync(int id, CategoryDTO category)
     {
-        var response = await _httpClient.PutAsJsonAsync($"api/categories/{id}", category);
+        var response = await _httpClient.PutAsJsonAsync($"categories/{id}", category);
         return response.IsSuccessStatusCode;
     }
 
     public async Task<bool> DeleteCategoryAsync(int id)
     {
-        var response = await _httpClient.DeleteAsync($"api/categories/{id}");
+        var response = await _httpClient.DeleteAsync($"categories/{id}");
         return response.IsSuccessStatusCode;
     }
 }
